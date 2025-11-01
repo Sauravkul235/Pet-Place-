@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Store Page — Pet Place</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="cat place.css"/>
+</head>
+  <style>
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+}
+
+/* Modal Card */
+.modal-content.quick-view-content {
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  text-align: center;
+  width: 350px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Buttons */
+.modal-content.quick-view-content .btn {
+  display: inline-block;
+  margin: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #2450dd;
+  color: white;
+  font-size: 15px;
+}
+
+.modal-content.quick-view-content .cancel-btn {
+  background: #aaa;
+}
+
+.modal-content.quick-view-content .btn:hover {
+  opacity: 0.9;
+}
+
+/* 🔹 Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+    .store__container { 
+      max-width: 1200px; 
+      margin: 5rem auto; 
+      padding: 0 1rem; 
+      text-align: center; 
+    }
+    .section__subheader { 
+      font-size: 1.2rem; 
+      font-weight: 500; 
+      letter-spacing: 2px; 
+      color: var(--text-light); 
+      margin-bottom:0.6rem; 
+    }
+    .section__header { 
+      font-size:2.4rem; 
+      font-weight:700; 
+      color:var(--text-dark); 
+      margin-bottom:2rem; 
+    }
+    .store__filters { 
+      display:flex; 
+      justify-content:center; 
+      flex-wrap:wrap; 
+      gap:1rem; 
+      margin-bottom:2rem; 
+    }
+    .store__filters button { 
+      padding:0.5rem 1rem; 
+      border:none; 
+      border-radius:8px; 
+      cursor:pointer; 
+      font-weight:600; 
+      transition:0.3s; 
+      background: rgba(255,255,255,0.2); 
+      color:#fffffff1; 
+    }
+    .store__filters button.active, .store__filters button:hover { 
+      background: var(--primary-color); 
+    }
+    .store__search { 
+      margin-bottom:2rem; 
+    }
+    .store__search input { 
+      padding:0.6rem 1rem; 
+      border-radius: 12px; 
+      background-color: rgba(255, 255, 255, 0.384); 
+      border:none; 
+      width:300px; 
+      max-width:90%; 
+    }
+    .store__grid { 
+      display:grid; 
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+      gap:2rem; 
+    }
+    .product__card { 
+      background: rgba(255,255,255,0.2); 
+      backdrop-filter: blur(6px); 
+      border-radius: 18px; 
+      padding:1.5rem 1rem; 
+      text-align:center; 
+      transition: all 0.4s ease; 
+      box-shadow:0 6px 20px rgba(0,0,0,0.1); 
+      color:var(--text-dark); 
+      position:relative; 
+    }
+    .product__card:hover { 
+      transform: translateY(-10px); 
+      background: rgba(255,255,255,0.35); 
+      box-shadow:0 12px 25px rgba(0,0,0,0.25); 
+    }
+    .product__card img { 
+      width:140px; 
+      height:140px; 
+      object-fit:contain; 
+      margin-bottom:1rem; 
+    }
+    .product__card h4 { 
+      font-size:1.1rem; 
+      margin-bottom:0.5rem; 
+    }
+    .product__card p { 
+      font-size:0.9rem; 
+      color: var(--text-light); 
+      line-height:1.4; 
+      margin-bottom:0.5rem; 
+    }
+    .product__price { 
+      font-weight:600; 
+      font-size:1rem; 
+      margin-bottom:1rem; 
+      display:block; 
+    }
+    .product__card button { 
+      background: var(--primary-color); 
+      border:none; 
+      padding:0.5rem 1rem;
+      border-radius:8px; 
+      cursor:pointer; 
+      font-weight:600; 
+      margin:0.3rem; 
+      transition:0.3s; 
+    }
+    .product__card button:hover { 
+      background: var(--secondary-color); 
+      transform:scale(1.05); 
+    }
+    .close-btn { 
+      position: absolute; 
+      right: 15px; 
+      top: 10px; 
+      font-size: 22px; 
+      cursor: pointer; 
+      color: #d3c9c9; 
+    }
+    .close-btn:hover { 
+      color: rgb(37, 37, 37); 
+    }
+    .cart-float { 
+      position:fixed; 
+      right:20px; 
+      bottom:20px; 
+      z-index:2200; 
+      width:56px; 
+      height:56px; 
+      border-radius:50%; 
+      background:var(--primary); 
+      color:#000000; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      box-shadow:0 8px 24px rgba(0,0,0,0.18);
+       cursor:pointer; 
+      }
+    .cart-count-badge{ 
+      position:absolute; 
+      top:6px; 
+      right:6px; 
+      background:#ff3b30; 
+      color:#fff; 
+      font-size:12px; 
+      padding:2px 6px; 
+      border-radius:20px; 
+    }
+
+    .cart-panel { 
+      position:fixed; 
+      top:0; 
+      right:-420px; 
+      width:380px; 
+      height:100%; 
+      background:#fffcfcad; 
+      box-shadow:-8px 0 30px rgba(0, 0, 0, 0.534); 
+      z-index:2300; 
+      transition:right .32s ease; 
+      display:flex; 
+      flex-direction:column; 
+    }
+    .cart-panel.open{ 
+      right:0; 
+    }
+    .cart-panel header{ 
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between; 
+      padding:1rem; 
+      border-bottom:1px solid #0c0c0c; 
+    }
+    .cart-panel header h2{ 
+      font-size:1.5rem; 
+      font-weight:700; 
+      color: var(--text-dark); 
+    }
+    .close-cart{ 
+      background: transparent; 
+      font-size:1.8rem; 
+      color: var(--text-dark); 
+      cursor:pointer; 
+      padding:4px 8px; 
+      border-radius:50px; 
+      transition:0.3s; 
+    }
+    .close-cart:hover{ 
+      background: var(--secondary-color); 
+      color:#fff; 
+    }
+    .clearCart{ 
+      background: transparent; 
+      font-size:1.1rem; 
+      color: var(--text-dark); 
+      cursor:pointer; 
+      padding:4px 8px; 
+      border-radius:6px; 
+      transition:0.3s; 
+      border:0; 
+    }
+    .cart-items{ 
+      padding:1rem; 
+      overflow:auto; 
+      flex:1; 
+    }
+    .cart-item{ 
+      display:flex; 
+      gap:.6rem; 
+      align-items:center; 
+      margin-bottom:.65rem; 
+      background:#f6f7fb; 
+      border-radius:8px; 
+      padding:.5rem; 
+    }
+    .cart-item img{ 
+      width:56px; 
+      height:56px; 
+      object-fit:cover; 
+      border-radius:6px; 
+    }
+    .cart-item .meta{ 
+      flex:1; 
+      font-size:.95rem; 
+    }
+    .cart-item .qty-controls button{ 
+      margin-left:6px; 
+      padding:4px 8px; 
+      border-radius:6px; 
+      border:0; 
+      cursor:pointer; 
+    }
+    .cart-footer{ 
+      padding:1rem; 
+      border-top:1px solid #eee; 
+    }
+    .cart-footer .total{ 
+      font-weight:700; 
+      font-size:1.1rem; 
+      margin-bottom:.6rem; 
+    }
+    .cart-footer button{ 
+      width:100%; 
+      padding:.7rem; 
+      border:0; 
+      border-radius:8px; 
+      background:var(--primary-color); 
+      color:var(--text-dark); 
+      cursor:pointer; 
+      font-weight:700; 
+    }
+
+    .checkout-overlay{ 
+      display:none; 
+      position:fixed; 
+      inset:0; 
+      background:rgba(0,0,0,0.6); 
+      z-index:2400; 
+      justify-content:center; 
+      align-items:center; 
+    }
+    .checkout-card{ 
+      width:100%; 
+      max-width:420px; 
+      background:#fff; 
+      border-radius:10px; 
+      padding:1rem; 
+    }
+
+    @media(max-width:480px){ 
+      .cart-panel{ 
+        width:100%; 
+        right:-100%; 
+      } 
+      .cart-panel.open{ 
+        right:0; 
+      } 
+    }
+    @media(max-width:768px){ 
+      .section__header{ 
+        font-size:2rem; 
+      } 
+      .store__container{ 
+        margin-top:3rem; 
+      } 
+    }
+
+    .loading { 
+      text-align: center; 
+      padding: 40px; 
+      color: var(--text-light); 
+      font-size: 1.1rem; 
+    }
+    .error { 
+      text-align: center; 
+      padding: 20px; 
+      color: #ff0000; 
+      background: rgba(255, 107, 107, 0.1); 
+      border-radius: 8px; 
+      margin: 20px; 
+    }
+
+    .no-products { 
+      text-align: center; 
+      padding: 40px; 
+      color: var(--text-light); 
+    }
+    .auth-message { 
+      color: #00cc07; 
+      font-size: 0.9rem; 
+      margin-top: 10px; 
+    }
+    .auth-error {
+      color: #a50000; 
+      font-size: 0.9rem; 
+      margin-top: 10px; 
+    }
+    .payment-form input, .payment-form select {
+      display: block;
+      width: 90%;
+      margin: 8px auto;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+    }
+  </style>
+<body>
+  <nav>
+    <div class="nav__header">
+      <div class="nav__logo"><a href="cat place.html">Pet Place</a></div>
+      <div class="nav__menu__btn" id="menu-btn"><i class="ri-menu-line"></i></div>
+    </div>
+    <ul class="nav__links" id="nav-links">
+      <li><a href="homepage.html">Home</a></li>
+      <li><a href="servicepage.html">Service</a></li>
+      <li><a href="storepage.html" class="active-link">Store</a></li>
+      <li><a href="appointmentpage.html">Appointment</a></li>
+      <li><a href="contectpage.html">Contact</a></li>
+      <li id="auth-link"><a class="login-btn" role="button" title="Login or signup" id="navLoginBtn"><i class="ri-account-circle-fill"></i></a></li>
+    </ul>
+  </nav>
+
+  <!-- STORE -->
+  <section class="store__container" style="margin-top:90px;">
+    <p class="section__subheader">STORE</p>
+    <h2 class="section__header">Explore Our Pet Products</h2>
+
+    <div class="store__filters" id="filters">
+      <button class="active" data-category="all">All</button>
+      <button data-category="Dog">Dog</button>
+      <button data-category="Cat">Cat</button>
+      <button data-category="Accessories">Accessories</button>
+      <button data-category="Food">Food</button>
+    </div>
+
+    <div class="store__search">
+      <input type="text" id="searchInput" placeholder="Search products...">
+    </div>
+
+    <div class="store__grid" id="storeGrid">
+      <div class="loading">Loading products...</div>
+    </div>
+  </section>
+
+  <!-- Quick View Modal -->
+  <div class="modal" id="quickViewModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-content" role="document">
+      <button class="close-btn" id="quickCloseBtn" aria-label="Close quick view">&times;</button>
+      <h3 id="quickTitle"></h3>
+      <img id="quickImage" src="" alt="" style="width:100%; max-width:200px; display:block; margin:1rem auto;">
+      <p id="quickDesc"></p>
+      <span class="product__price" id="quickPrice"></span>
+      <button id="quickBuyBtn">Add to cart</button>
+    </div>
+  </div>
+
+  <!-- Login/Signup Modal -->
+  <div id="loginModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-content" role="document">
+      <button class="close-btn" id="authCloseBtn" aria-label="Close auth dialog">&times;</button>
+
+      <div id="loginForm">
+        <h2 id="loginTitle">Login</h2>
+        <form id="loginFormElement" onsubmit="return false;">
+          <input type="email" id="loginEmail" placeholder="Email" required />
+          <input type="password" id="loginPassword" placeholder="Password" required />
+          <button type="submit" id="loginSubmitBtn">Login</button>
+        </form>
+        <p>Don't have an account? <span class="toggle-link" id="showSignupLink">Sign Up</span></p>
+        <div id="loginMessage" aria-live="polite"></div>
+      </div>
+
+      <div id="signupForm" style="display: none;">
+        <h2>Sign Up</h2>
+        <form id="signupFormElement" onsubmit="return false;">
+          <input type="text" id="signupName" placeholder="Name" required />
+          <input type="email" id="signupEmail" placeholder="Email" required />
+          <input type="tel" id="signupPhone" placeholder="Phone (10 digits)" inputmode="numeric" required />
+          <input type="password" id="signupPassword" placeholder="Password (min 6 chars)" required />
+          <button type="submit" id="signupSubmitBtn">Sign Up</button>
+        </form>
+        <p>Already have an account? <span class="toggle-link" id="showLoginLink">Login</span></p>
+        <div id="signupMessage" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="modal" id="checkoutModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-content" role="document">
+      <button class="close-btn" id="checkoutCloseBtn" aria-label="Close checkout">&times;</button>
+      <h2>Checkout</h2>
+      <div id="cartSummary" style="text-align:left; margin-bottom:1rem;"></div>
+      <input type="text" id="customerName" placeholder="Full Name" required />
+      <input type="email" id="customerEmail" placeholder="Email Address" required />
+      <input type="tel" id="customerPhone" placeholder="Phone Number" required />
+      <textarea id="customerAddress" placeholder="Delivery Address" rows="3" style="width:90%;margin:10px 0;padding:10px;border-radius:5px;border:1px solid #ccc;"></textarea>
+      <select id="paymentMethod" required>
+        <option value="">Select Payment Method</option>
+        <option value="cod">Cash on Delivery</option>
+        <option value="card">Credit/Debit Card</option>
+        <option value="upi">UPI</option>
+        <option value="netbanking">Net Banking</option>
+      </select>
+      <div id="paymentDetails" style="margin-top: 10px;"></div>
+      <button id="checkoutBtn">Confirm Order</button>
+      <div id="checkoutMessage" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- Cart Float Button -->
+  <div class="cart-float" id="cartFloat" title="Open Cart" role="button" aria-label="Open shopping cart">
+    <i class="ri-shopping-cart-2-line" style="font-size:20px;"></i>
+    <div class="cart-count-badge" id="cartBadge">0</div>
+  </div>
+
+  <!-- Cart Panel -->
+  <aside class="cart-panel" id="cartPanel" aria-hidden="true">
+    <header>
+      <h2>Shopping Cart</h2>
+      <div>
+        <button class="clearCart" id="clearCartBtn">Clear All</button>
+        <button class="close-cart" id="closeCartBtn" aria-label="Close cart">&times;</button>
+      </div>
+    </header>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="total" id="cartTotal">Total: ₹0.00</div>
+      <button id="proceedCheckoutBtn">Proceed to Checkout</button>
+    </div>
+  </aside>
+  <script src="cat place.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const API_BASE_URL = 'http://localhost:4000/api'; 
+
+    let products = [];
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    let token = localStorage.getItem('token') || null;
+    let currentUser = (() => {
+      try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; }
+    })();
+    // demo products
+    const fallbackProducts = [
+      {id:1, name:"Premium Dog Food", category:"Food", price:550, desc:"Nutritious dog food.", img:"image/Premium Dog Food.png", stock:50},
+      {id:2, name:"Cat Play Toy", category:"Cat", price:990, desc:"Engaging toy for cats.", img:"image/Cat Toy.jpg", stock:20},
+      {id:3, name:"Herbal Pet Shampoo", category:"Accessories", price:500, desc:"Gentle shampoo for pets.", img:"image/Herbal Shampoo.png", stock:30},
+      {id:4, name:"Durable Dog Leash", category:"Accessories", price:1000, desc:"High-quality leash.", img:"image/Durable Dog Leash.png", stock:15},
+      {id:5, name:"Cozy Pet Bed", category:"Accessories", price:5500, desc:"Comfortable bed.", img:"image/Cozy Pet Bed.png", stock:10},
+      {id:6, name:"Cat Food Mix", category:"Food", price:450, desc:"Healthy cat food mix.", img:"image/Cat Food Mix.png", stock:40}
+    ];
+    // helper functions
+    function el(id){ return document.getElementById(id); }
+
+    function setButtonLoading(btn, isLoading, text='Please wait...') {
+      if(!btn) return;
+      if(isLoading) {
+        btn.dataset.orig = btn.dataset.orig || btn.textContent;
+        btn.disabled = true;
+        btn.textContent = text;
+      } else {
+        btn.disabled = false;
+        btn.textContent = btn.dataset.orig || btn.textContent;
+      }
+    }
+
+    function showModal(modalEl) {
+      if(!modalEl) return;
+      modalEl.style.display = 'flex';
+      modalEl.setAttribute('aria-hidden','false');
+      const input = modalEl.querySelector('input, button, textarea');
+      if(input) input.focus();
+    }
+    function hideModal(modalEl) {
+      if(!modalEl) return;
+      modalEl.style.display = 'none';
+      modalEl.setAttribute('aria-hidden','true');
+    }
+
+    function formatCurrency(n){ return `₹${Number(n||0).toFixed(2)}`; }
+
+    function updateCartBadge() {
+      const badge = el('cartBadge');
+      const totalItems = cart.reduce((s, it) => s + it.quantity, 0);
+      badge.textContent = totalItems;
+      badge.style.display = totalItems > 0 ? 'block' : 'none';
+    }
+
+    function persistCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartBadge();
+    }
+
+    function escapeHtml(s = '') {
+      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+  //---- authentication UI ----//
+    function updateAuthUI(){
+      const authLink = el('auth-link');
+      if(!authLink) return;
+      if(currentUser && token){
+        authLink.innerHTML = `<a class="login-btn" role="button" onclick="handleLogout()" title="Logout"><i class="ri-user-line"></i> Hi, ${escapeHtml(currentUser.name)}</a>`;
+      } else {
+        authLink.innerHTML = `<a class="login-btn" role="button" id="navLoginBtnInner" title="Login or signup"><i class="ri-account-circle-fill"></i></a>`;
+        const btn = el('navLoginBtnInner');
+        if(btn) btn.addEventListener('click', () => openAuthModal('login'));
+      }
+    }
+
+    function openAuthModal(which = 'login'){
+      const modal = el('loginModal');
+      showModal(modal);
+      if(which === 'signup') showSignup(); else showLogin();
+    }
+
+    function openModalGlobal() { openAuthModal('login'); } // kept for compatibility
+
+    function showLogin(){
+      el('loginForm').style.display = 'block';
+      el('signupForm').style.display = 'none';
+      el('loginMessage').innerHTML = '';
+    }
+    function showSignup(){
+      el('loginForm').style.display = 'none';
+      el('signupForm').style.display = 'block';
+      el('signupMessage').innerHTML = '';
+    }
+
+    async function handleLoginSubmit() {
+      const email = el('loginEmail').value.trim();
+      const password = el('loginPassword').value.trim();
+      const msg = el('loginMessage');
+      if(!email || !password) return msg.innerHTML = '<span class="auth-error">Please fill email and password.</span>';
+      const btn = el('loginSubmitBtn');
+      setButtonLoading(btn, true);
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const text = await res.text();
+        let data;
+        try { data = JSON.parse(text); } catch { data = { message: text }; }
+
+        if(!res.ok) {
+          msg.innerHTML = `<span class="auth-error">Login failed: ${escapeHtml(data.message || text)}</span>`;
+          return;
+        }
+
+        token = data.token;
+        currentUser = data.user;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(currentUser));
+        updateAuthUI();
+        hideModal(el('loginModal'));
+        msg.innerHTML = `<span class="auth-message">Logged in successfully.</span>`;
+      } catch (err) {
+        msg.innerHTML = `<span class="auth-error">Network error: ${escapeHtml(err.message || '')}</span>`;
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    }
+
+    async function handleSignupSubmit() {
+      const name = el('signupName').value.trim();
+      const email = el('signupEmail').value.trim();
+      const phone = el('signupPhone').value.trim();
+      const password = el('signupPassword').value.trim();
+      const msg = el('signupMessage');
+
+      if(!name || !email || !phone || !password) return msg.innerHTML = '<span class="auth-error">Fill all fields!</span>';
+      if(password.length < 6) return msg.innerHTML = '<span class="auth-error">Password must be at least 6 chars</span>';
+      if(!/^\d{10}$/.test(phone)) return msg.innerHTML = '<span class="auth-error">Phone must be 10 digits</span>';
+
+      const btn = el('signupSubmitBtn');
+      setButtonLoading(btn, true);
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, password })
+        });
+        const text = await res.text();
+        let data;
+        try { data = JSON.parse(text); } catch { data = { message: text }; }
+
+        if(!res.ok) {
+          msg.innerHTML = `<span class="auth-error">Signup failed: ${escapeHtml(data.message || text)}</span>`;
+          return;
+        }
+
+        token = data.token;
+        currentUser = data.user;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(currentUser));
+        updateAuthUI();
+        hideModal(el('loginModal'));
+        msg.innerHTML = `<span class="auth-message">Signed up & logged in.</span>`;
+      } catch (err) {
+        msg.innerHTML = `<span class="auth-error">Network error: ${escapeHtml(err.message || '')}</span>`;
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('cart');
+      cart = [];
+      token = null;
+      currentUser = null;
+      updateAuthUI();
+      updateCartBadge();
+      alert('Logged out successfully.');
+      location.reload();
+    }
+  // ---- product loading / rendeing ----//
+async function loadProducts() {
+  const grid = el('storeGrid');
+  grid.innerHTML = '<div class="loading">Loading products...</div>';
+  console.log('Starting to load products from API...');  
+  try {
+    const res = await fetch(`${API_BASE_URL}/products`);
+    console.log('API response status:', res.status);  
+    if (!res.ok) {
+      console.warn('API fetch failed, using fallback products');
+      throw new Error(`HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    console.log('API data received:', data);  
+    let items = data.products || data || [];
+    if (!Array.isArray(items) || items.length === 0) {
+      console.log('No products from API, using fallback');
+      products = fallbackProducts;
+    } else {
+      products = items.map(p => ({
+        id: p.id,
+        name: p.name,
+        category: p.category,
+        price: parseFloat(p.price || 0),
+        desc: p.description || p.desc || 'No description.',
+        img: p.image_url || p.img || 'https://via.placeholder.com/120?text=No+Image',
+        stock: p.stock || 100
+      }));
+      console.log('Products loaded from API:', products.length, 'items');  
+    }
+  } catch (err) {
+    console.error('Product load error:', err);
+    console.log('Falling back to demo products due to error');
+    products = fallbackProducts;
+    grid.innerHTML = '<div class="error">Could not load products from server. Showing demo items.</div>';
+  }
+  console.log('Rendering products:', products.length, 'items');  
+  renderProducts(products);
+}
+
+function renderProducts(list) {
+  console.log('Rendering products list:', list); 
+  const grid = el('storeGrid');
+  if (!list || list.length === 0) {
+    grid.innerHTML = '<div class="no-products">No products to show.</div>';
+    return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="product__card" data-id="${p.id}" data-category="${escapeHtml(p.category)}">
+      <img src="${escapeHtml(p.img)}" alt="${escapeHtml(p.name)}" onerror="this.onerror=null;this.src='https://via.placeholder.com/120?text=No+Image'">
+      <h4>${escapeHtml(p.name)}</h4>
+      <p>${escapeHtml(p.desc)}</p>
+      <span class="product__price">${formatCurrency(p.price)}</span>
+      <button type="button" onclick="addToCart(${p.id})">Add to Cart</button>
+      <button type="button" onclick="quickView(${p.id})">Quick View</button>
+    </div>
+  `).join('');
+  console.log('Products rendered to grid');  
+}
+    //---- cart operations ----//
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      if(!product) return alert('Product not found.');
+      if(product.stock <= 0) return alert('Out of stock.');
+
+      const existing = cart.find(i => i.id === productId);
+      if(existing) {
+        if(existing.quantity >= product.stock) return alert('Max stock reached.');
+        existing.quantity++;
+      } else {
+        cart.push({ id: product.id, name: product.name, price: product.price, img: product.img, stock: product.stock, quantity: 1 });
+      }
+      persistCart();
+      renderCartItems(); 
+      alert(`${product.name} added to cart.`);
+    }
+
+    function renderCartItems() {
+      const container = el('cartItems');
+      const totalEl = el('cartTotal');
+      if(!container) return;
+      if(cart.length === 0) {
+        container.innerHTML = '<p style="text-align:center;color:var(--text-light)">Cart empty</p>';
+        totalEl.textContent = 'Total: ₹0.00';
+        return;
+      }
+      container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <img src="${escapeHtml(item.img)}" alt="${escapeHtml(item.name)}" onerror="this.onerror=null;this.src='https://via.placeholder.com/56?text=No+Img'">
+          <div class="meta">
+            <strong>${escapeHtml(item.name)}</strong><br>
+            ${formatCurrency(item.price)} x <span>${item.quantity}</span>
+            <div style="margin-top:6px;">
+              <button onclick="updateQuantity(${item.id}, -1)">-</button>
+              <button onclick="updateQuantity(${item.id}, 1)">+</button>
+            </div>
+            <small>${formatCurrency(item.price * item.quantity)}</small>
+          </div>
+          <button onclick="removeFromCart(${item.id})" style="background:red;color:white;border:none;padding:5px;border-radius:3px;">Remove</button>
+        </div>
+      `).join('');
+      const total = cart.reduce((s, it) => s + it.price * it.quantity, 0);
+      totalEl.textContent = `Total: ${formatCurrency(total)}`;
+    }
+
+    function updateQuantity(productId, change) {
+      const item = cart.find(i => i.id === productId);
+      if(!item) return;
+      const newQty = item.quantity + change;
+      if(newQty <= 0) return removeFromCart(productId);
+      if(newQty > item.stock) return alert('Exceeds stock');
+      item.quantity = newQty;
+      persistCart();
+      renderCartItems();
+    }
+
+    function removeFromCart(productId) {
+      cart = cart.filter(i => i.id !== productId);
+      persistCart();
+      renderCartItems();
+    }
+
+    function clearCart() {
+      if(!confirm('Clear all items from cart?')) return;
+      cart = [];
+      persistCart();
+      renderCartItems();
+    }
+
+    function toggleCartPanel() {
+      const panel = el('cartPanel');
+      panel.classList.toggle('open');
+      const isOpen = panel.classList.contains('open');
+      panel.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      if(isOpen) renderCartItems();
+    }
+  // --- quick view --- //
+    function quickView(productId) {
+      const product = products.find(p => p.id === productId);
+      if(!product) {
+        console.error('Product not found for quick view:', productId);
+        return alert('Product not found.');
+      }
+      el('quickTitle').textContent = product.name;
+      el('quickImage').src = product.img || 'https://via.placeholder.com/200?text=No+Image';
+      el('quickImage').alt = product.name;
+      el('quickDesc').textContent = product.desc;
+      el('quickPrice').textContent = formatCurrency(product.price);
+      el('quickBuyBtn').onclick = () => {
+        addToCart(productId);
+        hideModal(el('quickViewModal'));
+      };
+      showModal(el('quickViewModal'));
+    }
+
+    //---- checkout  ----//
+    function proceedToCheckout() {
+      if(cart.length === 0) return alert('Cart empty!');
+      if(!token) { openAuthModal('login'); return alert('Please login to continue checkout.'); }
+
+      if(currentUser) {
+        el('customerName').value = currentUser.name || '';
+        el('customerEmail').value = currentUser.email || '';
+        el('customerPhone').value = currentUser.phone || '';
+      }
+      const summary = cart.map(it => `${it.name} × ${it.quantity} — ${formatCurrency(it.price * it.quantity)}`).join('<br>');
+      const total = cart.reduce((s,it) => s + it.price * it.quantity, 0);
+      el('cartSummary').innerHTML = `<strong>Order Summary:</strong><br>${summary}<br><strong>Grand Total: ${formatCurrency(total)}</strong>`;
+      showModal(el('checkoutModal'));
+    }
+
+async function handleCheckout() {
+  const name = el('customerName').value.trim();
+  const email = el('customerEmail').value.trim();
+  const phone = el('customerPhone').value.trim();
+  const address = el('customerAddress').value.trim();
+  const msg = el('checkoutMessage');
+
+  if (!name || !email || !phone || !address) {
+    return msg.innerHTML = '<span class="auth-error">Fill all fields!</span>';
+  }
+  if (cart.length === 0) {
+    return msg.innerHTML = '<span class="auth-error">Cart empty!</span>';
+  }
+  if (!token) {
+    openAuthModal('login');
+    return alert('Please login first.');
+  }
+  const paymentMethod = el('paymentMethod').value;
+  if (!paymentMethod) return msg.innerHTML = '<span class="auth-error">Select a payment method!</span>';
+  // --- Validate entered payment details ---
+if (paymentMethod === 'card') {
+  const num = el('cardNumber')?.value.trim();
+  const name = el('cardName')?.value.trim();
+  const exp = el('cardExpiry')?.value.trim();
+  const cvv = el('cardCVV')?.value.trim();
+  if (!num || num.length !== 16 || !name || !exp || !cvv) {
+    return msg.innerHTML = '<span class="auth-error">Please fill all card details properly.</span>';
+  }
+}
+
+if (paymentMethod === 'upi') {
+  const upi = el('upiId')?.value.trim();
+  if (!upi || !upi.includes('@')) {
+    return msg.innerHTML = '<span class="auth-error">Enter a valid UPI ID.</span>';
+  }
+}
+
+if (paymentMethod === 'netbanking') {
+  const bank = el('bankName')?.value;
+  const acc = el('accountHolder')?.value.trim();
+  if (!bank || !acc) {
+    return msg.innerHTML = '<span class="auth-error">Please select bank and fill account holder name.</span>';
+  }
+}
+
+  setButtonLoading(el('checkoutBtn'), true, 'Processing...');
+  msg.innerHTML = '<span>Processing Payment...</span>';
+
+   try {
+    // Mock payment processing
+    if (paymentMethod !== 'cod') {
+      // Simulate online payment (fake delay and success)
+      msg.innerHTML = '<span>Connecting to payment gateway...</span>';
+      await new Promise(resolve => setTimeout(resolve, 2000));  // Fake 2-second delay
+      const paymentRes = await fetch(`${API_BASE_URL}/mock-payment`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ method: paymentMethod })  // Optional: pass method
+      });
+      if (!paymentRes.ok) throw new Error('Mock payment failed');
+      const paymentData = await paymentRes.json();
+      console.log('Mock payment success:', paymentData);
+      msg.innerHTML = '<span>Payment successful!</span>';
+    } else {
+      // COD: No payment processing
+      msg.innerHTML = '<span>Preparing order for COD...</span>';
+    }
+    // Place orders for each cart item
+    const orderPromises = cart.map(item => {
+      const orderPayload = {
+        product_id: item.id,
+        quantity: item.quantity,
+        total_price: item.price * item.quantity,
+        customer_name: name,
+        customer_email: email,
+        customer_phone: phone,
+        customer_address: address,
+        payment_method: paymentMethod
+      };
+      return fetch(`${API_BASE_URL}/orders`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify(orderPayload)
+      });
+    });
+    const responses = await Promise.all(orderPromises);
+    const allOk = responses.every(res => res.ok);
+    if (!allOk) throw new Error('Order placement failed');
+    cart = [];
+    persistCart();
+    renderCartItems();
+    hideModal(el('checkoutModal'));
+    msg.innerHTML = `<span class="auth-message">Order placed successfully with ${paymentMethod.toUpperCase()}.</span>`;
+    alert('Order confirmed! Thank you.');
+  } catch (err) {
+    msg.innerHTML = `<span class="auth-error">Error: ${escapeHtml(err.message || '')}</span>`;
+  } finally {
+    setButtonLoading(el('checkoutBtn'), false);
+  }
+}
+    document.addEventListener('DOMContentLoaded', () => {                       // Load data and setup handlers
+      loadProducts();
+      updateAuthUI();
+      updateCartBadge();
+      renderCartItems();
+
+      document.querySelectorAll('.store__filters button').forEach(btn => {              // Filters handling
+        btn.addEventListener('click', (e) => {
+          const prev = document.querySelector('.store__filters .active');
+          if(prev) prev.classList.remove('active');
+          e.currentTarget.classList.add('active');
+          const cat = e.currentTarget.dataset.category;
+          const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
+          renderProducts(filtered);
+        });
+      });
+
+      const search = el('searchInput');
+      if(search) search.addEventListener('input', (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        const filtered = products.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+        renderProducts(filtered);
+      });
+
+      const navLoginBtn = el('navLoginBtn');
+      if(navLoginBtn) navLoginBtn.addEventListener('click', () => openAuthModal('login'));
+
+      el('cartFloat').addEventListener('click', toggleCartPanel);                          // cart panel handlers
+      el('closeCartBtn').addEventListener('click', toggleCartPanel);
+      el('clearCartBtn').addEventListener('click', clearCart);
+      el('proceedCheckoutBtn').addEventListener('click', proceedToCheckout);
+
+      el('authCloseBtn').addEventListener('click', () => hideModal(el('loginModal')));
+      el('showSignupLink').addEventListener('click', showSignup);
+      el('showLoginLink').addEventListener('click', showLogin);
+
+      el('loginFormElement').addEventListener('submit', (ev) => { ev.preventDefault(); handleLoginSubmit(); });
+      el('signupFormElement').addEventListener('submit', (ev) => { ev.preventDefault(); handleSignupSubmit(); });
+
+      el('loginSubmitBtn').addEventListener('click', handleLoginSubmit);
+      el('signupSubmitBtn').addEventListener('click', handleSignupSubmit);
+
+      el('quickCloseBtn').addEventListener('click', () => hideModal(el('quickViewModal')));
+
+      el('checkoutCloseBtn').addEventListener('click', () => hideModal(el('checkoutModal')));
+      el('checkoutBtn').addEventListener('click', handleCheckout);
+
+      document.addEventListener('keydown', (e) => {                               //close model handler 
+        if(e.key === 'Escape') {
+          ['loginModal','quickViewModal','checkoutModal'].forEach(id => {
+            const m = el(id);
+            if(m && m.style.display === 'flex') hideModal(m);
+          });
+        }
+      });
+
+      document.addEventListener('click', (e) => {                                    // Close modal when clicking outside 
+        ['loginModal','quickViewModal','checkoutModal'].forEach(id => {
+          const modal = el(id);
+          if(!modal) return;
+          if(modal.style.display === 'flex' && e.target === modal) hideModal(modal);
+        });
+      });
+
+      // --- Realistic Payment Form Simulation ---
+el('paymentMethod').addEventListener('change', function() {
+  const method = this.value;
+  const details = el('paymentDetails');
+
+  if (!method) {
+    details.innerHTML = '';
+    return;
+  }
+  switch (method) {
+    case 'card':
+      details.innerHTML = `
+        <div class="payment-form">
+          <input type="text" id="cardNumber" placeholder="Card Number (16 digits)" maxlength="16" pattern="\\d{16}" required />
+          <input type="text" id="cardName" placeholder="Cardholder Name" required />
+          <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" required />
+          <input type="password" id="cardCVV" placeholder="CVV" maxlength="3" pattern="\\d{3}" required />
+        </div>
+      `;
+      break;
+    case 'upi':
+      details.innerHTML = `
+        <div class="payment-form">
+          <input type="text" id="upiId" placeholder="Enter UPI ID (e.g. name@upi)" required />
+          <p style="font-size:0.85rem;color:#555;">You'll receive a payment request on your UPI app.</p>
+        </div>
+      `;
+      break;
+    case 'netbanking':
+      details.innerHTML = `
+        <div class="payment-form">
+          <select id="bankName" required>
+            <option value="">Select Bank</option>
+            <option value="SBI">State Bank of India</option>
+            <option value="HDFC">HDFC Bank</option>
+            <option value="ICICI">ICICI Bank</option>
+            <option value="Axis">Axis Bank</option>
+            <option value="BOB">Bank of Baroda</option>
+          </select>
+          <input type="text" id="accountHolder" placeholder="Account Holder Name" required />
+        </div>
+      `;
+      break;
+
+    case 'cod':
+      details.innerHTML = `
+        <p style="font-size:0.9rem; color:#333; margin-top:5px;">
+          You can pay in cash upon delivery. No payment details required.
+        </p>
+      `;
+      break;
+  }
+ });
+});
+    window.openModal = openAuthModal;                              // kept for compatibility
+    window.openModalGlobal = openModalGlobal;
+    window.quickView = quickView;
+    window.addToCart = addToCart;
+    window.updateQuantity = updateQuantity;
+    window.removeFromCart = removeFromCart;
+    window.clearCart = clearCart;
+    window.handleLogout = handleLogout;
+    window.proceedToCheckout = proceedToCheckout;
+    window.openAuthModal = openAuthModal;
+  </script>
+</body>
+</html>
+

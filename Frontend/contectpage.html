@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>Contact Page</title>
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="cat place.css"/>
+    </head>
+    <style>
+        .confirmation-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .confirmation-card {
+            background: #000000bd;
+            padding: 25px 35px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.473);
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .confirmation-card h3 {
+            color: #3bbe5a;
+            margin-bottom: 10px;
+        }
+
+        .confirmation-card button {
+            margin-top: 10px;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .confirmation-card button:hover {
+            background: var(--secondary-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .login-btn {
+            padding: 10px 20px;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .login-btn:hover {
+            background: rgba(197, 185, 185, 0.685);
+            font-size: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.63);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Modal Card */
+        .modal-content {
+            background: rgba(209, 199, 199, 0.486);
+            padding: 20px;
+            width: 350px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(37, 37, 37, 0.479);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #3a3a3ac0;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.616);
+        }
+
+        button {
+            padding: 10px;;
+            background: #2450dd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0b7dda;
+        }
+
+        .toggle-link {
+            color: #003af7;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .contact__container{
+            max-width:1000px;
+            margin:5rem auto;
+            padding:0 1rem;
+            text-align:center;
+        }
+        .section__subheader{
+            font-size:1.2rem;
+            font-weight:500;
+            color:var(--text-light);
+            margin-bottom:.4rem;
+        }
+        .section__header{
+            font-size:2.4rem;
+            font-weight:700;
+            color:var(--text-dark);
+            margin-bottom:2rem;
+        }
+         /* info boxes */
+        .info-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:1.5rem;
+            margin-bottom:2rem;
+            text-align:left;
+        }
+        .info-card{
+            background:rgba(255,255,255,0.25);
+            backdrop-filter:blur(6px);
+            padding:1.5rem;
+            border-radius:16px;
+            box-shadow:0 6px 20px rgba(0,0,0,.1);
+        }
+        .info-card h4{
+            margin-top:0;
+            margin-bottom:.5rem;
+            color:var(--text-dark);
+        }
+        .info-card p{
+            margin:0;
+            color:var(--text-light);
+        }
+        .social-icons{
+            display:flex;
+            gap:1rem;
+            margin-top:.5rem;
+        }
+        .social-icons a{
+            color:var(--primary-color);
+            text-decoration: none;
+            font-size:1.5rem;
+            transition:.3s;
+        }
+        .social-icons a:hover{
+            color:var(--secondary-color);
+        }
+
+        /* contact form */
+        .contact-card{
+            background:rgba(255,255,255,0.25);
+            backdrop-filter:blur(6px);
+            padding:2rem;
+            border-radius:16px;
+            box-shadow:0 6px 20px rgba(0,0,0,.1);
+            text-align:left;
+            margin-bottom:3rem;
+        }
+        .contact-card input,.contact-card textarea{
+            width:100%;
+            padding:10px;
+            margin:8px 0;
+            border:1px solid #ccc;
+            border-radius:5px;
+        }
+        .contact-card button{
+            background:var(--primary-color);
+            color:#fff;
+            border:none;
+            padding:.7rem 1.2rem;
+            border-radius:6px;
+            cursor:pointer;
+            font-weight:600;
+        }
+        .contact-card button:hover{
+            background:var(--secondary-color);
+        }
+    </style>
+<body>
+    <nav>
+        <div class="nav__header">
+            <div class="nav__logo"><a href="cat place.html">Pet Place</a></div>
+            <div class="nav__menu__btn" id="menu-btn"><i class="ri-menu-line"></i></div>
+        </div>
+       <ul class="nav__links" id="nav-links">
+            <li><a href="homepage.html">Home</a></li>
+            <li><a href="servicepage.html">Service</a></li>
+            <li><a href="storepage.html">Store</a></li>
+            <li><a href="appointmentpage.html">Appointment</a></li>
+            <li><a href="contactpage.html" class="active-link">Contact</a></li>
+          <li><a class="login-btn" onclick="openModal()"><i class="ri-account-circle-fill"></i></a></li>
+        </ul>
+    </nav>
+    <section class="contact__container">
+        <p class="section__subheader">GET IN TOUCH</p>
+        <h2 class="section__header">Contact Us</h2>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h4>📍 Location</h4>
+                <p>Pet Place Center, Pune</p>
+                <p>123 Pet Street, Pune, India</p>
+            </div>
+            <div class="info-card">
+                <h4>📞 Inquiries</h4>
+                <p>Phone: +91 98765 43210</p>
+                <p>Email: contact@petplace.com</p>
+            </div>
+            <div class="info-card">
+                <h4>🌐 Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#" target="_blank"><i class="ri-facebook-fill"></i></a>
+                    <a href="#" target="_blank"><i class="ri-instagram-fill"></i></a>
+                    <a href="#" target="_blank"><i class="ri-twitter-fill"></i></a>
+                    <a href="#" target="_blank"><i class="ri-linkedin-fill"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Contact Form -->
+        <div class="contact-card">
+            <p style="margin-bottom:1rem">Send us a message and we will get back to you soon.</p>
+            <input id="contactName" placeholder="Your Name" required />
+            <input id="contactEmail" placeholder="Your Email" type="email" required />
+            <input id="contactPhone" placeholder="Phone Number" />
+            <textarea id="contactMsg" rows="4" placeholder="Your Message" required></textarea>
+            <button onclick="submitContact()">Send Message</button>
+        </div>
+    </section>
+    <div class="confirmation-overlay" id="contactConfirmation">                      <!-- confirmation overlay -->
+        <div class="confirmation-card">
+            <h3> Message Sent!</h3>
+            <p>Thank you for reaching out. We will get back to you soon.</p>
+            <button onclick="closeContactConfirmation()">OK</button>
+        </div>
+    </div>
+   
+  <div id="loginModal" class="modal">                                   <!-- login/signup modal -->
+    <div class="modal-content">
+      <div id="loginForm">
+        <h2>Login</h2>
+        <input type="text" placeholder="Email" />
+        <input type="password" placeholder="Password" />
+        <button>Login</button>
+        <p>Don't have an account? <span class="toggle-link" onclick="showSignup()">Sign Up</span></p>
+      </div>
+      <div id="signupForm" style="display: none;">
+        <h2>Sign Up</h2>
+        <input type="text" placeholder="Name" />
+        <input type="email" placeholder="Email" />
+        <input type="password" placeholder="Password" />
+        <button>Sign Up</button>
+        <p>Already have an account? <span class="toggle-link" onclick="showLogin()">Login</span></p>
+      </div>
+    </div>
+  </div>
+</body>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="cat place.js"></script>
+    <script>
+    const API_BASE_URL = "http://localhost:4000/api";
+    console.log('Home Page Loaded - API Base:', API_BASE_URL);
+    
+  let currentUser = JSON.parse(localStorage.getItem('user')) || null;
+  let token = localStorage.getItem('token') || null;
+
+  function updateAuthUI() {
+    const authLinkElement = document.querySelector('.login-btn');
+    if (!authLinkElement) {
+      console.error('Login button not found in the DOM');
+      return;
+    }
+    if (currentUser && token) {
+      authLinkElement.innerHTML = `<i class="ri-user-line"></i> Hi, ${currentUser.name}`;
+      authLinkElement.onclick = handleLogout;
+    } else {
+      authLinkElement.innerHTML = `<i class="ri-account-circle-fill"></i>`;
+      authLinkElement.onclick = openModal;
+    }
+  }
+
+  function openModal() {
+    const modal = document.getElementById('loginModal');
+    if (modal) modal.style.display = 'flex';
+    showLogin();
+  }
+
+  function closeModal() {
+    const loginModal = document.getElementById('loginModal');
+    if (loginModal) loginModal.style.display = 'none';
+  }
+
+  function showLogin() {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    if (loginForm) loginForm.style.display = 'block';
+    if (signupForm) signupForm.style.display = 'none';
+  }
+
+  function showSignup() {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    if (loginForm) loginForm.style.display = 'none';
+    if (signupForm) signupForm.style.display = 'block';
+  }
+
+  async function handleLogin() {
+    const email = document.querySelector('#loginForm input[type="text"]').value.trim();
+    const password = document.querySelector('#loginForm input[type="password"]').value.trim();
+    if (!email || !password) {
+      alert('Please fill in email and password!');
+      return;
+    }
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      currentUser = data.user;
+      token = data.token;
+      updateAuthUI();
+      closeModal();
+      alert('Logged in successfully!');
+    } catch (err) {
+      alert('Login failed: ' + err.message);
+    }
+  }
+
+  async function handleSignup() {
+    const name = document.querySelector('#signupForm input[type="text"]').value.trim();
+    const email = document.querySelector('#signupForm input[type="email"]').value.trim();
+    const password = document.querySelector('#signupForm input[type="password"]').value.trim();
+    if (!name || !email || !password) {
+      alert('Please fill in all fields!');
+      return;
+    }
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      currentUser = data.user;
+      token = data.token;
+      updateAuthUI();
+      closeModal();
+      alert('Signed up successfully! Logged in.');
+    } catch (err) {
+      alert('Signup failed: ' + err.message);
+    }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    currentUser = null;
+    token = null;
+    updateAuthUI();
+    alert('Logged out successfully!');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateAuthUI();
+    const loginBtn = document.querySelector('#loginForm button');
+    if (loginBtn) loginBtn.onclick = handleLogin;
+    const signupBtn = document.querySelector('#signupForm button');
+    if (signupBtn) signupBtn.onclick = handleSignup;
+  });
+
+  window.onclick = function(event) {
+    const modal = document.getElementById('loginModal');
+    if (event.target == modal) closeModal();
+  };
+  
+    async function submitContact() {                                                 // Contact Form Submission
+        const name = document.getElementById("contactName").value.trim();
+        const email = document.getElementById("contactEmail").value.trim();
+        const phone = document.getElementById("contactPhone").value.trim();
+        const msg = document.getElementById("contactMsg").value.trim();
+
+        if (!name || !email || !msg) {
+            alert("Please fill all required fields.");
+            return;
+        }
+
+        try {
+            const res = await fetch("http://localhost:4000/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, phone, message: msg }),
+            });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+
+        document.getElementById("contactConfirmation").style.display = "flex";
+        document.getElementById("contactName").value = "";
+        document.getElementById("contactEmail").value = "";
+        document.getElementById("contactPhone").value = "";
+        document.getElementById("contactMsg").value = "";
+
+        } catch (err) {
+            alert("Failed to send message: " + err.message);
+            console.error(err);
+        }
+    } 
+    function closeContactConfirmation() {
+        const confirmationBox = document.getElementById('contactConfirmation');
+        if (confirmationBox) {
+            confirmationBox.style.display = 'none';
+        }
+    }
+    </script>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="cat place.css"/>
+  <style>
+    .login-btn {
+      padding: 10px 20px;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .login-btn:hover {
+        background: rgba(197, 185, 185, 0.685);
+        font-size: 20px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.63);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: rgba(209, 199, 199, 0.486);
+      padding: 20px;
+      width: 350px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(37, 37, 37, 0.479);
+    }
+
+    .modal-content h2 {
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #3a3a3ac0;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.616);
+    }
+
+    button {
+      padding: 10px;;
+      background: #728de6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0b7dda;
+    }
+
+    .toggle-link {
+      color: #003af7;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    body {
+      background: var(--background-gradient);
+      background-size: 400% 400%;
+      animation: gradientShift 10s ease infinite;
+      color: var(--text-dark);
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .section__container {
+      max-width: 1200px;
+      margin: 7rem auto;
+      padding: 0 1rem;
+      text-align: center;
+    }
+
+    .section__subheader {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--text-light);
+      margin-bottom: 0.6rem;
+    }
+
+    .section__header {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color:var(--text-dark);
+      margin-bottom: 3rem;
+    }
+
+    .service__flex {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .service__card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      border-radius: 18px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: all 0.4s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      color: #fff;
+    }
+
+    .service__card:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.651);
+    }
+
+    .service__card img {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 1.2rem;
+      object-fit: contain;
+    }
+
+    .service__card h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.8rem;
+    }
+
+    .service__card p {
+      color: var(--text-light);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .section__header {
+        font-size: 2rem;
+      }
+      .section__container {
+        margin-top: 6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav__header">
+      <div class="nav__logo">
+        <a href="cat place.html">Pet Place</a>
+      </div>
+      <div class="nav__menu__btn" id="menu-btn">
+        <i class="ri-menu-line"></i>
+      </div>
+    </div>
+    <ul class="nav__links" id="nav-links">
+      <li><a href="homepage.html">Home</a></li>
+      <li><a href="servicepage.html" class="active-link">Service</a></li>
+      <li><a href="storepage.html">Store</a></li>
+      <li><a href="appointmentpage.html">Appointment</a></li>
+      <li><a href="contectpage.html">Contact</a></li>
+      <li><a class="login-btn" onclick="openModal()"><i class="ri-account-circle-fill"></i></a></li>
+    </ul>
+  </nav>
+  <div class="nav-overlay" id="nav-overlay"></div>
+  <section class="section__container service__container" id="service">
+    <p class="section__subheader">SERVICES</p>
+    <h2 class="section__header">What We Can Do For You</h2>
+
+    <div class="service__flex">
+      <div class="service__card">
+        <img src="image/service-1.png" alt="Emergency Care">
+        <h4>Emergency Care</h4>
+        <p>24/7 urgent care services to keep your pets safe during critical situations.</p>
+      </div>
+
+      <div class="service__card">
+        <img src="image/service-2.png" alt="Vaccination">
+        <h4>Vaccination Service</h4>
+        <p>Protect your pets with essential vaccinations for a long and healthy life.</p>
+      </div>
+
+      <div class="service__card">
+        <img src="image/service-3.png" alt="Nutrition">
+        <h4>Nutrition Counseling</h4>
+        <p>Expert dietary guidance tailored to your pet's unique health needs.</p>
+      </div>
+
+      <div class="service__card">
+        <img src="image/service-4.png" alt="Behaviour">
+        <h4>Behavioural Consultation</h4>
+        <p>Professional advice to improve your pet's behavior and well-being.</p>
+      </div>
+
+      <div class="service__card">
+        <img src="image/service-5.png" alt="Boarding">
+        <h4>Pet Boarding</h4>
+        <p>Safe, comfortable boarding facilities when you are away from home.</p>
+      </div>
+    </div>
+  </section>
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <div id="loginForm">
+        <h2>Login</h2>
+        <input type="text" placeholder="Email" />
+        <input type="password" placeholder="Password" />
+        <button>Login</button>
+        <p>Don't have an account? <span class="toggle-link" onclick="showSignup()">Sign Up</span></p>
+      </div>
+      <div id="signupForm" style="display: none;">
+        <h2>Sign Up</h2>
+        <input type="text" placeholder="Name" />
+        <input type="email" placeholder="Email" />
+        <input type="password" placeholder="Password" />
+        <button>Sign Up</button>
+        <p>Already have an account? <span class="toggle-link" onclick="showLogin()">Login</span></p>
+      </div>
+    </div>
+  </div>
+</body>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="cat place.js"></script>
+  <script>
+ // Backend API Base URL
+  const API_BASE_URL = "http://localhost:4000/api";
+  console.log('Home Page Loaded - API Base:', API_BASE_URL);
+
+  // Global Variables
+  let currentUser = JSON.parse(localStorage.getItem('user')) || null;
+  let token = localStorage.getItem('token') || null;
+
+  function updateAuthUI() {
+    const authLinkElement = document.querySelector('.login-btn');
+    if (!authLinkElement) {
+      console.error('Login button not found in the DOM');
+      return;
+    }
+    if (currentUser && token) {
+      authLinkElement.innerHTML = `<i class="ri-user-line"></i> Hi, ${currentUser.name}`;
+      authLinkElement.onclick = handleLogout;
+    } else {
+      authLinkElement.innerHTML = `<i class="ri-account-circle-fill"></i>`;
+      authLinkElement.onclick = openModal;
+    }
+  }
+
+  function openModal() {
+    const modal = document.getElementById('loginModal');
+    if (modal) modal.style.display = 'flex';
+    showLogin();
+  }
+
+  function closeModal() {
+    const loginModal = document.getElementById('loginModal');
+    if (loginModal) loginModal.style.display = 'none';
+  }
+
+  function showLogin() {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    if (loginForm) loginForm.style.display = 'block';
+    if (signupForm) signupForm.style.display = 'none';
+  }
+
+  function showSignup() {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    if (loginForm) loginForm.style.display = 'none';
+    if (signupForm) signupForm.style.display = 'block';
+  }
+
+  async function handleLogin() {
+    const email = document.querySelector('#loginForm input[type="text"]').value.trim();
+    const password = document.querySelector('#loginForm input[type="password"]').value.trim();
+    if (!email || !password) {
+      alert('Please fill in email and password!');
+      return;
+    }
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      currentUser = data.user;
+      token = data.token;
+      updateAuthUI();
+      closeModal();
+      alert('Logged in successfully!');
+    } catch (err) {
+      alert('Login failed: ' + err.message);
+    }
+  }
+
+  async function handleSignup() {
+    const name = document.querySelector('#signupForm input[type="text"]').value.trim();
+    const email = document.querySelector('#signupForm input[type="email"]').value.trim();
+    const password = document.querySelector('#signupForm input[type="password"]').value.trim();
+    if (!name || !email || !password) {
+      alert('Please fill in all fields!');
+      return;
+    }
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      currentUser = data.user;
+      token = data.token;
+      updateAuthUI();
+      closeModal();
+      alert('Signed up successfully! Logged in.');
+    } catch (err) {
+      alert('Signup failed: ' + err.message);
+    }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    currentUser = null;
+    token = null;
+    updateAuthUI();
+    alert('Logged out successfully!');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {                      // event listener
+    updateAuthUI();
+    const loginBtn = document.querySelector('#loginForm button');
+    if (loginBtn) loginBtn.onclick = handleLogin;
+    const signupBtn = document.querySelector('#signupForm button');
+    if (signupBtn) signupBtn.onclick = handleSignup;
+  });
+
+  window.onclick = function(event) {                                           //close modal on outside click
+    const modal = document.getElementById('loginModal');
+    if (event.target == modal) closeModal();
+  };
+  </script>
+</html>

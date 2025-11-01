@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Place</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="cat place.css"/>
+    <style>
+        .login-btn {
+            padding: 10px 20px;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 3px;
+            cursor: pointer;
+            text-decoration: none; 
+            display: inline-block;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.63);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: rgba(209, 199, 199, 0.486);
+            padding: 20px;
+            width: 350px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(37, 37, 37, 0.479);
+        }
+        .modal-content input, .modal-content select, .modal-content textarea {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.616);
+        }
+        .modal-content button {
+            background: #728de6;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .modal-content button:hover {
+            background: #0b7dda;
+        }
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            color: #555;
+            font-size: 22px;
+        }
+        .close-btn:hover {
+            color: rgb(0, 0, 0);
+        }
+        .confirmation-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav__header">
+            <div class="nav__logo">
+                <a href="#">Pet Place</a>
+            </div>
+            <div class="nav__menu__btn" id="menu-btn">
+                <i class="ri-menu-line"></i>
+            </div>
+        </div>
+        <ul class="nav__links" id="nav-links"> 
+           <li id="auth-link"><a class="login-btn" href="javascript:void(0);" onclick="openModal()"><i class="ri-account-circle-fill"></i></a></li>
+        </ul>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay"></div>
+    <header id="home">
+        <div class="section_container header_container">
+            <div class="header_content">
+                <h4>WELCOME</h4>
+                <h1>Pet<br><span>DOCTOR</span></h1>
+                <h2>We Love Pets Like You Do :)</h2>
+                <p>
+                    From routine check-ups to specialized treatments,We're here to 
+                    ensure your pets lead happy ,healthy lives. 
+                </p>
+                <div class="header-btn">
+                    <button type="button" class="btn" onclick="location.href='homepage.html'">
+                        Start Here!
+                        <span><i class="ri-arrow-right-line"></i></span>
+                    </button>
+                </div>
+            </div>
+            <div class="header_image">
+                <img src="image\header-bg.png" alt="header-bg" class="header_image-bg"/>
+                <img src="image\header.png" alt="header"/>
+            </div>
+        </div>
+        <div class="header_bottom"></div>
+    </header>
+
+  <!-- Login/Signup Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <div id="loginForm">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button onclick="handleLogin()">Login</button>
+        <p>Don't have an account? <span class="toggle-link" onclick="showSignup()">Sign Up</span></p>
+        <div id="loginMessage"></div>
+      </div>
+      <div id="signupForm" style="display: none;">
+        <h2>Sign Up</h2>
+        <input type="text" id="signupName" placeholder="Name" required />
+        <input type="email" id="signupEmail" placeholder="Email" required />
+        <input type="tel" id="signupPhone" placeholder="Phone (10 digits)" required />
+        <input type="password" id="signupPassword" placeholder="Password (min 6 chars)" required />
+        <button onclick="handleSignup()">Sign Up</button>
+        <p>Already have an account? <span class="toggle-link" onclick="showLogin()"></span></p>
+        <div id="signupMessage"></div>
+      </div>
+    </div>
+  </div>
+</body>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="cat place.js"></script>
+<script>
+  const API_BASE_URL = "http://localhost:4000/api";
+  console.log('Cat Place Page Loaded - API Base:', API_BASE_URL);
+
+  let currentUser = JSON.parse(localStorage.getItem('user')) || null;
+  let token = localStorage.getItem('token') || null;
+
+  function updateAuthUI() {
+    const authLinkElement = document.getElementById('auth-link');
+    if (!authLinkElement) {
+      console.error('Element with ID "auth-link" not found in the DOM');
+      return;
+    }
+    if (currentUser && token) {
+      authLinkElement.innerHTML = `<a class="login-btn" onclick="handleLogout()"><i class="ri-user-line"></i> Hi, ${currentUser.name}</a>`;
+    } else {
+      authLinkElement.innerHTML = `<a class="login-btn" href="javascript:void(0);" onclick="openModal()"><i class="ri-account-circle-fill"></i></a>`;
+    }
+  }
+
+  function openModal() {
+    const modal = document.getElementById('loginModal');
+    if (modal) modal.style.display = 'flex';
+    showLogin();
+  }
+
+  function closeModal() {
+    const loginModal = document.getElementById('loginModal');
+    if (loginModal) loginModal.style.display = 'none';
+  }
+
+  function showLogin() {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    if (loginForm) loginForm.style.display = 'block';
+    if (signupForm) signupForm.style.display = 'none';
+  }
+
+  function showSignup() {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    if (loginForm) loginForm.style.display = 'none';
+    if (signupForm) signupForm.style.display = 'block';
+  }
+
+  async function handleLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    const messageEl = document.getElementById('loginMessage');
+    if (!email || !password) return messageEl.innerHTML = '<span class="auth-error">Fill email and password!</span>';
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      currentUser = data.user;
+      token = data.token;
+      updateAuthUI();
+      closeModal();
+      messageEl.innerHTML = '<span class="auth-message">Logged in successfully!</span>';
+    } catch (err) {
+      messageEl.innerHTML = '<span class="auth-error">Login failed: ' + err.message + '</span>';
+    }
+  }
+
+  async function handleSignup() {
+    const name = document.getElementById('signupName').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const phone = document.getElementById('signupPhone').value.trim();
+    const password = document.getElementById('signupPassword').value.trim();
+    const messageEl = document.getElementById('signupMessage');
+    if (!name || !email || !phone || !password) return messageEl.innerHTML = '<span class="auth-error">Fill all fields!</span>';
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, password })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      currentUser = data.user;
+      token = data.token;
+      updateAuthUI();
+      closeModal();
+      messageEl.innerHTML = '<span class="auth-message">Signed up successfully! Logged in.</span>';
+    } catch (err) {
+      messageEl.innerHTML = '<span class="auth-error">Signup failed: ' + err.message + '</span>';
+    }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    currentUser = null;
+    token = null;
+    updateAuthUI();
+    alert('Logged out successfully!');
+  }
+
+  function closeConfirmation() {
+    const confirmationOverlay = document.getElementById('confirmationOverlay');
+    if (confirmationOverlay) confirmationOverlay.style.display = 'none';
+  }
+
+  window.onclick = e => {
+    if (e.target === document.getElementById('loginModal')) closeModal();
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {              // DOMContentLoaded
+    updateAuthUI();
+  });
+</script>
+</html>

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <div class="admin-app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="Petplace Logo.png" alt="" class="logo"  />
+        <h2>Pet Place</h2>
+      </div>
+      <nav class="menu">
+        <button class="menu-item active" data-view="dashboard">
+          <span class="icon"></span> Dashboard
+        </button>
+        <button class="menu-item" data-view="products">
+          <span class="icon"></span> Products
+        </button>
+        <button class="menu-item" data-view="orders">
+          <span class="icon"></span> Orders
+        </button>
+        <button class="menu-item" data-view="appointments">
+          <span class="icon"></span> Appointments
+        </button>
+        <button class="menu-item" data-view="users">
+          <span class="icon"></span> Users
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <small>Logged in as <strong>Admin</strong></small>
+        <button id="logoutBtn" class="btn-ghost">Log out</button>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <h1 id="pageTitle">Dashboard</h1>
+        <div class="top-actions">
+          <input id="globalSearch" type="search" placeholder="Search tables..." />
+          <button id="refreshBtn" class="btn">Refresh</button>
+        </div>
+      </header>
+      <section class="content" id="content">
+        <div id="view-dashboard" class="view">                                       <!-- Dashboard -->
+          <div class="cards">
+            <div class="card">
+              <h3 id="statProducts">0</h3>
+              <p>Products</p>
+            </div>
+            <div class="card">
+              <h3 id="statOrders">0</h3>
+              <p>Orders</p>
+            </div>
+            <div class="card">
+              <h3 id="statAppointments">0</h3>
+              <p>Appointments</p>
+            </div>
+            <div class="card">
+              <h3 id="statUsers">0</h3>
+              <p>Users</p>
+            </div>
+          </div>
+          <div id="view-contact" class="admin-view">
+            <h2>Contact Messages</h2>
+            <table id="contactTable">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Message</th>
+                  <th>Received At</th>
+                </tr>
+              </thead>
+              <tbody id="contactTableBody">
+                <tr><td colspan="6">Loading messages...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="view-products" class="view hidden">                                    <!-- Products -->
+          <div class="toolbar">
+            <button id="addProductBtn" class="btn primary">+ Add Product</button>
+            <div class="spacer"></div>
+            <select id="productFilter">
+              <option value="">All categories</option>
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+              <option value="Accessories">Accessories</option>
+            </select>
+          </div>
+
+          <div class="table-wrap" id="productsTableWrap"></div>
+        </div>
+        <div id="view-orders" class="view hidden">                                          <!-- Orders -->
+          <div class="toolbar">
+            <div>Orders Table</div>
+            <div class="spacer"></div>
+            <div class="table-actions">
+              <button id="clearOldOrders" class="btn danger">Clear Completed/Cancelled Orders</button>
+              <button id="exportOrdersBtn" class="btn-export">Export Orders CSV</button>
+            </div>
+            <select id="orderStatusFilter">
+              <option value="">All statuses</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div class="table-wrap" id="ordersTableWrap"></div>
+        </div>
+        <div id="view-appointments" class="view hidden">                                    <!-- Appointments -->
+          <div class="toolbar">
+            <div>Appointments</div>
+            <div class="spacer"></div>
+            <div class="table-actions">
+              <button id="clearOldAppointments" class="btn danger">🧹 Clear Past Appointments</button>
+            </div>
+            <select id="appointmentFilter">
+              <option value="">All</option>
+              <option value="Pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+
+          <div class="table-wrap" id="appointmentsTableWrap"></div>
+        </div>
+        <div id="view-users" class="view hidden">                                        <!-- Users -->
+          <div class="toolbar">
+            <div>Users</div>
+            <div class="spacer"></div>
+            <button id="exportUsersBtn" class="btn">Export CSV</button>
+          </div>
+
+          <div class="table-wrap" id="usersTableWrap"></div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <small>Pet Place Admin </small>
+      </footer>
+    </main>
+  </div>
+
+  <div class="modal hidden" id="productModal" aria-hidden="true">                    <!-- Add/Edit Product Modal --> 
+    <div class="modal-card">
+      <h3 id="productModalTitle">Add Product</h3>
+      <form id="productForm">
+        <div class="form-row">
+          <label>Name <input name="name" required /></label>
+          <label>Category <input name="category" required /></label>
+        </div>
+        <div class="form-row">
+          <label>Price (INR) <input name="price" type="number" min="0" required /></label>
+          <label>Stock <input name="stock" type="number" min="0" required /></label>
+        </div>
+        <div class="form-row">
+          <label>Image URL <input name="image_url" /></label>
+        </div>
+        <div class="form-row">
+          <label>Description <textarea name="description" rows="3"></textarea></label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="cancelProductBtn">Cancel</button>
+          <button type="submit" class="btn primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="confirmModal" aria-hidden="true">                       <!-- Confirm Modal -->
+    <div class="modal-card">
+      <h3 id="confirmTitle">Confirm action</h3>
+      <p id="confirmMessage">Are you sure?</p>
+      <div class="modal-actions">
+        <button id="confirmNo" class="btn-ghost">No</button>
+        <button id="confirmYes" class="btn primary">Yes</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="detailsModal" aria-hidden="true">                        <!-- Order/Appointment Detail Modal -->
+    <div class="modal-card">
+      <h3 id="detailsTitle">Details</h3>
+      <div id="detailsBody"></div>
+      <div class="modal-actions">
+        <button id="closeDetails" class="btn-ghost">Close</button>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="admin.js"></script>
+</html>
